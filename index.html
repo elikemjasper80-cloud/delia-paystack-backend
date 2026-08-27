@@ -1,0 +1,3433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Delia | Online Marketplace</title>
+
+<script src="https://js.paystack.co/v2/inline.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f5f5;
+    color:#222;
+}
+
+button,input,select,textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+    border:none;
+}
+
+.hidden{
+    display:none!important;
+}
+
+header{
+    background:#f85606;
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.nav{
+    max-width:1300px;
+    margin:auto;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:900;
+}
+
+.logo span{
+    color:#ffd7bd;
+}
+
+.search{
+    flex:1;
+    display:flex;
+    height:43px;
+}
+
+.search input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:0 15px;
+}
+
+.search button{
+    width:52px;
+    background:#333;
+    color:white;
+}
+
+.navButton{
+    background:none;
+    color:white;
+    text-align:center;
+}
+
+.navButton small{
+    display:block;
+    font-size:11px;
+}
+
+.categories{
+    background:white;
+    display:flex;
+    gap:8px;
+    padding:10px 15px;
+    overflow-x:auto;
+}
+
+.category{
+    background:#eee;
+    padding:9px 15px;
+    border-radius:20px;
+    white-space:nowrap;
+}
+
+.category.active{
+    background:#f85606;
+    color:white;
+}
+
+.hero{
+    max-width:1300px;
+    margin:18px auto;
+    padding:0 16px;
+}
+
+.heroBox{
+    min-height:300px;
+    border-radius:8px;
+    padding:45px;
+    color:white;
+
+    background:
+    linear-gradient(90deg,#172337 0%,#172337dd 45%,#17233720),
+    url("https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=85")
+    center/cover;
+}
+
+.heroBox h1{
+    font-size:clamp(35px,6vw,60px);
+    max-width:650px;
+}
+
+.heroBox p{
+    max-width:600px;
+    margin:15px 0 25px;
+    line-height:1.6;
+}
+
+.shopButton{
+    background:#f85606;
+    color:white;
+    padding:14px 25px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+main{
+    max-width:1300px;
+    margin:auto;
+    padding:0 16px 50px;
+}
+
+.sectionTitle{
+    background:white;
+    padding:17px;
+    margin-top:20px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-top:10px;
+}
+
+.product{
+    background:white;
+    border-radius:5px;
+    overflow:hidden;
+}
+
+.productImage{
+    height:190px;
+    position:relative;
+    background:#eee;
+}
+
+.productImage img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.discount{
+    position:absolute;
+    left:7px;
+    top:7px;
+    background:#fff0e6;
+    color:#f85606;
+    padding:5px;
+    font-size:11px;
+}
+
+.productInfo{
+    padding:11px;
+}
+
+.productName{
+    height:42px;
+    font-size:14px;
+}
+
+.stars{
+    color:#f5a800;
+    font-size:12px;
+    margin:5px 0;
+}
+
+.price{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.oldPrice{
+    color:#999;
+    text-decoration:line-through;
+    font-size:11px;
+    margin-left:5px;
+}
+
+.delivery{
+    color:#159447;
+    font-size:11px;
+    margin:7px 0;
+}
+
+.addButton{
+    width:100%;
+    padding:10px;
+    background:#f85606;
+    color:white;
+    border-radius:4px;
+}
+
+.panel{
+    background:white;
+    padding:22px;
+    margin-top:20px;
+    border-radius:6px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:20px 0;
+}
+
+.stat{
+    background:#f5f5f5;
+    padding:17px;
+}
+
+.stat span{
+    font-size:12px;
+    color:#777;
+}
+
+.stat strong{
+    display:block;
+    color:#f85606;
+    font-size:24px;
+    margin-top:7px;
+}
+
+.commissionBox{
+    background:#fff7f2;
+    border:1px solid #ffd5bf;
+    padding:15px;
+    border-radius:6px;
+    margin-bottom:20px;
+}
+
+.commissionBox strong{
+    color:#f85606;
+}
+
+.form{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    margin-top:15px;
+}
+
+.form input,
+.form select,
+.form textarea{
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    outline:none;
+}
+
+.form textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.primaryButton{
+    background:#f85606;
+    color:white;
+    padding:13px;
+    border-radius:4px;
+    font-weight:bold;
+}
+
+.secondaryButton{
+    background:#eee;
+    color:#222;
+    padding:12px;
+    border-radius:4px;
+}
+
+.dangerButton{
+    background:#dc2626;
+    color:white;
+    padding:10px;
+    border-radius:4px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0009;
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modalBox{
+    background:white;
+    width:100%;
+    max-width:450px;
+    max-height:92vh;
+    overflow:auto;
+    padding:25px;
+    border-radius:7px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:12px;
+    top:7px;
+    background:none;
+    font-size:28px;
+}
+
+.switch{
+    text-align:center;
+    margin-top:15px;
+    font-size:13px;
+}
+
+.switch button{
+    background:none;
+    color:#f85606;
+    font-weight:bold;
+}
+
+.forgot{
+    text-align:right;
+    margin-top:2px;
+}
+
+.forgot button{
+    background:none;
+    color:#f85606;
+    font-size:13px;
+}
+
+.accountBox{
+    background:#fff7f2;
+    border:1px solid #ffd5bf;
+    padding:15px;
+    border-radius:6px;
+    margin-bottom:20px;
+}
+
+.googleButton{
+    width:100%;
+    padding:13px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-weight:bold;
+    color:#333;
+    margin-top:10px;
+}
+
+.cart{
+    position:fixed;
+    right:-430px;
+    top:0;
+    width:420px;
+    max-width:95%;
+    height:100vh;
+    background:white;
+    z-index:2500;
+    padding:22px;
+    box-shadow:-5px 0 20px #0003;
+    transition:.3s;
+}
+
+.cart.open{
+    right:0;
+}
+
+.cartHeader{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.cartItem{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:13px 0;
+    border-bottom:1px solid #eee;
+}
+
+.removeButton{
+    background:#fee2e2;
+    color:#c00;
+    padding:7px;
+    border-radius:4px;
+}
+
+.cartTotal{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.checkoutButton{
+    width:100%;
+    background:#f85606;
+    color:white;
+    padding:14px;
+    margin-top:12px;
+}
+
+.order{
+    border:1px solid #ddd;
+    padding:17px;
+    margin-top:12px;
+    border-radius:6px;
+    background:#fff;
+}
+
+.orderHeader{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.orderStatus{
+    color:#159447;
+    margin-top:8px;
+    font-weight:bold;
+}
+
+.orderInfo{
+    margin-top:12px;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.orderItems{
+    background:#f7f7f7;
+    padding:10px;
+    margin-top:10px;
+    border-radius:5px;
+}
+
+.commissionInfo{
+    background:#fff7f2;
+    border:1px solid #ffd5bf;
+    padding:10px;
+    margin-top:10px;
+    border-radius:5px;
+}
+
+.statusSelect{
+    padding:9px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    margin-top:10px;
+}
+
+.updateStatusButton{
+    background:#f85606;
+    color:white;
+    padding:9px 12px;
+    border-radius:4px;
+    margin-top:8px;
+}
+
+.adminTitle{
+    color:#f85606;
+    margin-bottom:8px;
+}
+
+footer{
+    background:#172337;
+    color:white;
+    padding:40px 20px;
+}
+
+.footer{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.footer p{
+    color:#bbb;
+    line-height:1.8;
+    font-size:13px;
+}
+
+@media(max-width:1000px){
+    .products{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .nav{
+        flex-wrap:wrap;
+    }
+
+    .search{
+        order:3;
+        flex-basis:100%;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .heroBox{
+        padding:28px 20px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .footer{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:450px){
+
+    .products{
+        gap:7px;
+    }
+
+    .productImage{
+        height:155px;
+    }
+
+    .footer{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="nav">
+
+<div class="logo">Delia<span>•</span></div>
+
+<div class="search">
+<input
+id="searchInput"
+type="search"
+placeholder="Search products..."
+oninput="renderProducts()">
+
+<button onclick="renderProducts()">🔍</button>
+</div>
+
+<button class="navButton" onclick="openAccount()">
+👤
+<small id="accountLabel">Account</small>
+</button>
+
+<button class="navButton" onclick="openCart()">
+🛒 <b id="cartCount">0</b>
+<small>Cart</small>
+</button>
+
+</div>
+</header>
+
+<div class="categories">
+
+<button class="category active"
+onclick="chooseCategory('all',this)">
+All
+</button>
+
+<button class="category"
+onclick="chooseCategory('Phone Accessories',this)">
+📱 Phone Accessories
+</button>
+
+<button class="category"
+onclick="chooseCategory('Chargers',this)">
+🔌 Chargers
+</button>
+
+<button class="category"
+onclick="chooseCategory('Electronics',this)">
+🎧 Electronics
+</button>
+
+<button class="category"
+onclick="chooseCategory('Electrical Gadgets',this)">
+⚡ Electrical Gadgets
+</button>
+
+<button class="category"
+onclick="chooseCategory('Phone Repair Tools',this)">
+🛠️ Repair Tools
+</button>
+
+</div>
+
+<section class="hero">
+<div class="heroBox">
+
+<h1>Everything you need, all in one place.</h1>
+
+<p>
+Shop phone accessories, chargers, earpieces,
+electrical gadgets, repair tools and more.
+</p>
+
+<button
+class="shopButton"
+onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+Shop Now
+</button>
+
+</div>
+</section>
+
+<main>
+
+<section id="shop">
+
+<div class="sectionTitle">
+<h2>🔥 Featured Products</h2>
+</div>
+
+<div id="products" class="products"></div>
+
+</section>
+
+<section id="sellerPanel" class="panel hidden">
+
+<h2 class="adminTitle">
+Seller / Admin Center
+</h2>
+
+<div class="accountBox">
+
+<strong id="sellerName"></strong>
+
+<p id="sellerEmail"
+style="color:#777;margin-top:5px">
+</p>
+
+<p id="sellerRole"
+style="color:#f85606;margin-top:5px">
+</p>
+
+</div>
+
+<div class="commissionBox">
+
+<strong>💰 Delia Commission: 1%</strong>
+
+<p style="margin-top:7px;color:#555;line-height:1.5">
+Delia keeps <strong>1%</strong> of every completed sale.
+The seller receives the remaining <strong>99%</strong>.
+</p>
+
+<p style="margin-top:8px;color:#555">
+Example: GH₵100 sale → GH₵1 Delia commission →
+GH₵99 seller earnings.
+</p>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<span>My Products</span>
+<strong id="myProductCount">0</strong>
+</div>
+
+<div class="stat">
+<span>Total Orders</span>
+<strong id="sellerOrderCount">0</strong>
+</div>
+
+<div class="stat">
+<span>Seller Earnings After 1%</span>
+<strong id="sellerSales">GH₵0</strong>
+</div>
+
+</div>
+
+<h3>Add Product</h3>
+
+<form class="form" onsubmit="addProduct(event)">
+
+<input id="productName"
+placeholder="Product name"
+required>
+
+<input id="productPrice"
+type="number"
+min="0"
+step="0.01"
+placeholder="Price in GH₵"
+required>
+
+<input id="productOldPrice"
+type="number"
+min="0"
+step="0.01"
+placeholder="Old price (optional)">
+
+<select id="productCategory" required>
+
+<option value="Phone Accessories">
+Phone Accessories
+</option>
+
+<option value="Chargers">
+Chargers
+</option>
+
+<option value="Electronics">
+Electronics
+</option>
+
+<option value="Electrical Gadgets">
+Electrical Gadgets
+</option>
+
+<option value="Phone Repair Tools">
+Phone Repair Tools
+</option>
+
+</select>
+
+<input id="productImage"
+type="url"
+placeholder="Product image URL"
+required>
+
+<input id="productStock"
+type="number"
+min="0"
+placeholder="Stock quantity"
+required>
+
+<textarea
+id="productDescription"
+placeholder="Product description"></textarea>
+
+<button class="primaryButton">
++ Add Product
+</button>
+
+</form>
+
+<h3 style="margin-top:30px">
+My Products
+</h3>
+
+<div id="myProducts"></div>
+
+<div id="sellerOrdersSection"
+style="margin-top:35px">
+
+<h3>📦 Customer Orders</h3>
+
+<p style="color:#777;margin-top:6px">
+See customer information, products,
+total amount, 1% commission and seller earnings.
+</p>
+
+<div id="sellerOrders"></div>
+
+</div>
+
+<button
+style="margin-top:15px"
+class="secondaryButton"
+onclick="logout()">
+🚪 Sign Out
+</button>
+
+</section>
+
+<section id="ordersPanel" class="panel hidden">
+
+<h2>🛍️ My Orders</h2>
+
+<div
+id="buyerAccountInfo"
+class="accountBox"
+style="margin-top:15px">
+</div>
+
+<div id="orders"></div>
+
+<button
+style="margin-top:20px"
+class="secondaryButton"
+onclick="logout()">
+🚪 Sign Out
+</button>
+
+</section>
+
+</main>
+
+<footer>
+
+<div class="footer">
+
+<div>
+<h3>Delia</h3>
+<p>Your online marketplace for everyday products.</p>
+</div>
+
+<div>
+<h3>Customer Service</h3>
+<p>
+Help Center<br>
+Delivery<br>
+Returns<br>
+Contact
+</p>
+</div>
+
+<div>
+<h3>Sell on Delia</h3>
+<p>
+Seller Center<br>
+Add Products<br>
+Seller Support
+</p>
+</div>
+
+<div>
+<h3>About Delia</h3>
+<p>
+About Delia<br>
+Privacy<br>
+Terms
+</p>
+</div>
+
+</div>
+
+</footer>
+
+<!-- AUTH -->
+
+<div class="modal" id="authModal">
+
+<div class="modalBox">
+
+<button class="close"
+onclick="closeModal('authModal')">
+×
+</button>
+
+<div id="loginForm">
+
+<h2>Sign in</h2>
+
+<p style="color:#777;margin:8px 0 20px">
+Welcome back to Delia.
+</p>
+
+<form class="form" onsubmit="loginUser(event)">
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email"
+required>
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password"
+required>
+
+<div class="forgot">
+
+<button
+type="button"
+onclick="forgotPassword()">
+Forgot password?
+</button>
+
+</div>
+
+<button class="primaryButton">
+Sign In
+</button>
+
+</form>
+
+<button
+type="button"
+class="googleButton"
+onclick="googleLogin()">
+🔵 Continue with Google
+</button>
+
+<div class="switch">
+
+Don't have an account?
+
+<button onclick="showSignup()">
+Sign Up
+</button>
+
+</div>
+
+</div>
+
+<div id="signupForm" class="hidden">
+
+<h2>Create your Delia account</h2>
+
+<form class="form" onsubmit="signupUser(event)">
+
+<input
+id="signupName"
+placeholder="Full name"
+required>
+
+<input
+id="signupEmail"
+type="email"
+placeholder="Email"
+required>
+
+<input
+id="signupPhone"
+type="tel"
+placeholder="Phone number"
+required>
+
+<input
+id="signupPassword"
+type="password"
+minlength="6"
+placeholder="Password — at least 6 characters"
+required>
+
+<select
+id="signupRole"
+onchange="roleChanged()"
+required>
+
+<option value="">
+Choose account type
+</option>
+
+<option value="buyer">
+Buyer
+</option>
+
+<option value="seller">
+Seller
+</option>
+
+</select>
+
+<div id="sellerAddressBox" class="hidden">
+
+<input
+id="sellerAddress"
+placeholder="Home or business address">
+
+</div>
+
+<button class="primaryButton">
+Create Account
+</button>
+
+</form>
+
+<button
+type="button"
+class="googleButton"
+onclick="googleLogin()">
+🔵 Sign up with Google
+</button>
+
+<div class="switch">
+
+Already registered?
+
+<button onclick="showLogin()">
+Sign In
+</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<!-- CHECKOUT -->
+
+<div class="modal" id="checkoutModal">
+
+<div class="modalBox">
+
+<button class="close"
+onclick="closeModal('checkoutModal')">
+×
+</button>
+
+<h2>Checkout</h2>
+
+<div
+style="
+background:#fff7f2;
+border:1px solid #ffd5bf;
+padding:12px;
+border-radius:5px;
+margin-top:15px;
+font-size:13px;
+">
+
+<strong>Paystack Test Mode</strong>
+
+<p style="margin-top:5px;color:#666">
+This checkout uses Paystack's test environment.
+No real money will be charged.
+</p>
+
+</div>
+
+<form class="form" onsubmit="startPaystackPayment(event)">
+
+<input
+id="deliveryName"
+placeholder="Full name"
+required>
+
+<input
+id="deliveryPhone"
+type="tel"
+placeholder="Phone number"
+required>
+
+<textarea
+id="deliveryAddress"
+placeholder="Delivery address"
+required></textarea>
+
+<button class="primaryButton">
+💳 Pay with Paystack
+</button>
+
+</form>
+
+</div>
+</div>
+
+<!-- CART -->
+
+<div id="cartPanel" class="cart">
+
+<div class="cartHeader">
+
+<h2>Your Cart</h2>
+
+<button
+class="close"
+onclick="closeCart()">
+×
+</button>
+
+</div>
+
+<div id="cartItems"></div>
+
+<div class="cartTotal">
+Total:
+GH₵<span id="cartTotal">0.00</span>
+</div>
+
+<button
+class="checkoutButton"
+onclick="checkout()">
+Proceed to Checkout
+</button>
+
+</div>
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut,
+    GoogleAuthProvider,
+    signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    getDoc,
+    doc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    query,
+    where,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* =========================================
+   FIREBASE
+========================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyAT_0kR0Ei3cP8R_8JoPSun_e_cO6_qlSM",
+
+    authDomain:
+    "delia-d7475.firebaseapp.com",
+
+    projectId:
+    "delia-d7475",
+
+    storageBucket:
+    "delia-d7475.firebasestorage.app",
+
+    messagingSenderId:
+    "862364636791",
+
+    appId:
+    "1:862364636791:web:97e271d055c6da95e15872",
+
+    measurementId:
+    "G-R1ZYPET3EE"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* =========================================
+   PAYSTACK TEST PUBLIC KEY
+========================================= */
+
+const PAYSTACK_PUBLIC_KEY =
+"pk_test_abffa56e1c24406b77acac482816029ae8fbc50f";
+
+
+/* =========================================
+   DELIA COMMISSION
+========================================= */
+
+const COMMISSION_RATE = 0.01;
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let currentUser = null;
+let currentUserData = null;
+let currentCategory = "all";
+let products = [];
+let cart = [];
+
+
+/* =========================================
+   DEMO PRODUCTS
+========================================= */
+
+const demoProducts = [
+
+{
+name:"Premium Phone Case",
+price:45,
+oldPrice:70,
+category:"Phone Accessories",
+image:"https://images.unsplash.com/photo-1601593346740-925612772716?auto=format&fit=crop&w=800&q=85",
+stock:30,
+rating:4.8,
+description:"Protective premium phone case."
+},
+
+{
+name:"Tempered Glass Screen Protector",
+price:25,
+oldPrice:40,
+category:"Phone Accessories",
+image:"https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=800&q=85",
+stock:50,
+rating:4.7,
+description:"Strong tempered glass screen protector."
+},
+
+{
+name:"Wireless EarPods",
+price:120,
+oldPrice:180,
+category:"Electronics",
+image:"https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=800&q=85",
+stock:25,
+rating:4.7,
+description:"Wireless earbuds for everyday use."
+},
+
+{
+name:"Bluetooth Earpiece",
+price:85,
+oldPrice:120,
+category:"Electronics",
+image:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=85",
+stock:20,
+rating:4.6,
+description:"Wireless Bluetooth earpiece."
+},
+
+{
+name:"Fast USB Phone Charger",
+price:65,
+oldPrice:90,
+category:"Chargers",
+image:"https://images.unsplash.com/photo-1587033411391-5d9e51cce126?auto=format&fit=crop&w=800&q=85",
+stock:35,
+rating:4.8,
+description:"Fast charging USB adapter."
+},
+
+{
+name:"Laptop Charger",
+price:180,
+oldPrice:240,
+category:"Chargers",
+image:"https://images.unsplash.com/photo-1625842268584-8f3296236761?auto=format&fit=crop&w=800&q=85",
+stock:18,
+rating:4.6,
+description:"Replacement laptop charger."
+},
+
+{
+name:"Phone Repair Tool Kit",
+price:120,
+oldPrice:160,
+category:"Phone Repair Tools",
+image:"https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=800&q=85",
+stock:14,
+rating:4.8,
+description:"Useful tools for phone repairs."
+},
+
+{
+name:"Rechargeable LED Lamp",
+price:90,
+oldPrice:130,
+category:"Electrical Gadgets",
+image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=85",
+stock:20,
+rating:4.5,
+description:"Rechargeable LED electrical lamp."
+}
+
+];
+
+
+/* =========================================
+   LOAD PRODUCTS
+========================================= */
+
+async function loadProducts(){
+
+try{
+
+const snapshot =
+await getDocs(collection(db,"products"));
+
+products =
+snapshot.docs.map(item => ({
+id:item.id,
+...item.data()
+}));
+
+if(products.length === 0){
+
+for(const product of demoProducts){
+
+await addDoc(
+collection(db,"products"),
+{
+...product,
+sellerId:"delia-demo",
+createdAt:serverTimestamp()
+}
+);
+
+}
+
+const newSnapshot =
+await getDocs(collection(db,"products"));
+
+products =
+newSnapshot.docs.map(item => ({
+id:item.id,
+...item.data()
+}));
+
+}
+
+renderProducts();
+
+}catch(error){
+
+console.error(error);
+
+document.getElementById("products").innerHTML =
+
+`
+<div style="
+background:white;
+padding:20px;
+grid-column:1/-1;
+">
+
+<h3>Products could not load.</h3>
+
+<p style="margin-top:8px;color:#c00">
+${safe(error.message)}
+</p>
+
+</div>
+`;
+
+}
+
+}
+
+
+/* =========================================
+   RENDER PRODUCTS
+========================================= */
+
+function renderProducts(){
+
+const search =
+document
+.getElementById("searchInput")
+.value
+.toLowerCase()
+.trim();
+
+const filtered =
+products.filter(product => {
+
+const searchable =
+(
+product.name +
+" " +
+product.category +
+" " +
+(product.description || "")
+).toLowerCase();
+
+return searchable.includes(search)
+&&
+(
+currentCategory === "all"
+||
+product.category === currentCategory
+);
+
+});
+
+const container =
+document.getElementById("products");
+
+container.innerHTML = "";
+
+if(filtered.length === 0){
+
+container.innerHTML =
+`
+<div style="
+background:white;
+padding:25px;
+grid-column:1/-1;
+text-align:center;
+">
+
+<h3>No products found.</h3>
+
+<p style="color:#777;margin-top:7px">
+Try another search or category.
+</p>
+
+</div>
+`;
+
+return;
+
+}
+
+filtered.forEach(product => {
+
+const discount =
+product.oldPrice &&
+product.oldPrice > product.price
+?
+Math.round(
+(1-product.price/product.oldPrice)*100
+)
+:
+0;
+
+container.innerHTML +=
+
+`
+<div class="product">
+
+<div class="productImage">
+
+<img
+src="${safe(product.image)}"
+alt="${safe(product.name)}"
+onerror="
+this.src='https://via.placeholder.com/600x500?text=Delia'
+">
+
+${
+discount > 0
+?
+`
+<div class="discount">
+-${discount}%
+</div>
+`
+:
+""
+}
+
+</div>
+
+<div class="productInfo">
+
+<div class="productName">
+${safe(product.name)}
+</div>
+
+<div class="stars">
+⭐ ${product.rating || 4.5}
+</div>
+
+<div class="price">
+
+GH₵${Number(product.price).toFixed(2)}
+
+${
+product.oldPrice
+?
+`
+<span class="oldPrice">
+GH₵${Number(product.oldPrice).toFixed(2)}
+</span>
+`
+:
+""
+}
+
+</div>
+
+<div class="delivery">
+✓ Fast delivery available
+</div>
+
+<button
+class="addButton"
+onclick="addToCart('${product.id}')">
+
+Add to Cart
+
+</button>
+
+</div>
+
+</div>
+`;
+
+});
+
+}
+
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+window.chooseCategory =
+function(category,button){
+
+currentCategory = category;
+
+document
+.querySelectorAll(".category")
+.forEach(item =>
+item.classList.remove("active")
+);
+
+button.classList.add("active");
+
+renderProducts();
+
+};
+
+
+/* =========================================
+   GOOGLE LOGIN
+========================================= */
+
+window.googleLogin =
+async function(){
+
+try{
+
+const provider =
+new GoogleAuthProvider();
+
+const result =
+await signInWithPopup(
+auth,
+provider
+);
+
+const user =
+result.user;
+
+const userRef =
+doc(db,"users",user.uid);
+
+const profile =
+await getDoc(userRef);
+
+if(!profile.exists()){
+
+await setDoc(
+userRef,
+{
+
+name:
+user.displayName ||
+"Google User",
+
+email:
+user.email || "",
+
+phone:
+user.phoneNumber || "",
+
+role:"buyer",
+
+address:"",
+
+provider:"google",
+
+createdAt:
+serverTimestamp()
+
+}
+);
+
+}
+
+closeModal("authModal");
+
+alert(
+"Welcome to Delia, " +
+(user.displayName || "Google User") +
+"!"
+);
+
+}catch(error){
+
+alert(getFirebaseError(error));
+
+}
+
+};
+
+
+/* =========================================
+   SIGN UP
+========================================= */
+
+window.signupUser =
+async function(event){
+
+event.preventDefault();
+
+const name =
+document.getElementById("signupName")
+.value.trim();
+
+const email =
+document.getElementById("signupEmail")
+.value.trim();
+
+const phone =
+document.getElementById("signupPhone")
+.value.trim();
+
+const password =
+document.getElementById("signupPassword")
+.value;
+
+const role =
+document.getElementById("signupRole")
+.value;
+
+const address =
+document.getElementById("sellerAddress")
+.value.trim();
+
+if(!role){
+
+alert("Please choose Buyer or Seller.");
+
+return;
+
+}
+
+if(role === "seller" && !address){
+
+alert("Seller address is required.");
+
+return;
+
+}
+
+try{
+
+const result =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+await setDoc(
+doc(db,"users",result.user.uid),
+{
+
+name,
+email,
+phone,
+
+role,
+
+address:
+role === "seller"
+?
+address
+:
+"",
+
+provider:"password",
+
+createdAt:
+serverTimestamp()
+
+}
+);
+
+alert(
+"Your Delia account was created successfully!"
+);
+
+closeModal("authModal");
+
+event.target.reset();
+
+document
+.getElementById("sellerAddressBox")
+.classList.add("hidden");
+
+}catch(error){
+
+alert(getFirebaseError(error));
+
+}
+
+};
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+window.loginUser =
+async function(event){
+
+event.preventDefault();
+
+const email =
+document
+.getElementById("loginEmail")
+.value.trim();
+
+const password =
+document
+.getElementById("loginPassword")
+.value;
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+closeModal("authModal");
+
+event.target.reset();
+
+}catch(error){
+
+alert(getFirebaseError(error));
+
+}
+
+};
+
+
+/* =========================================
+   FORGOT PASSWORD
+========================================= */
+
+window.forgotPassword =
+async function(){
+
+const email =
+document
+.getElementById("loginEmail")
+.value.trim();
+
+if(!email){
+
+alert(
+"Enter your email address first."
+);
+
+return;
+
+}
+
+try{
+
+await sendPasswordResetEmail(
+auth,
+email
+);
+
+alert(
+"Password reset email sent. Check your inbox and spam folder."
+);
+
+}catch(error){
+
+alert(getFirebaseError(error));
+
+}
+
+};
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
+
+onAuthStateChanged(
+auth,
+async user => {
+
+currentUser = user;
+
+currentUserData = null;
+
+if(!user){
+
+document
+.getElementById("accountLabel")
+.textContent = "Account";
+
+document
+.getElementById("sellerPanel")
+.classList.add("hidden");
+
+document
+.getElementById("ordersPanel")
+.classList.add("hidden");
+
+return;
+
+}
+
+try{
+
+const profile =
+await getDoc(
+doc(db,"users",user.uid)
+);
+
+currentUserData =
+profile.exists()
+?
+profile.data()
+:
+{
+name:user.email,
+email:user.email,
+phone:user.phoneNumber || "",
+role:"buyer"
+};
+
+const data =
+currentUserData;
+
+document
+.getElementById("accountLabel")
+.textContent =
+data.name ||
+user.email ||
+"Account";
+
+document
+.getElementById("sellerPanel")
+.classList.add("hidden");
+
+document
+.getElementById("ordersPanel")
+.classList.add("hidden");
+
+if(
+data.role === "seller" ||
+data.role === "admin"
+){
+
+document
+.getElementById("sellerPanel")
+.classList.remove("hidden");
+
+document
+.getElementById("sellerName")
+.textContent =
+"Welcome, " +
+(data.name || user.email);
+
+document
+.getElementById("sellerEmail")
+.textContent =
+user.email;
+
+document
+.getElementById("sellerRole")
+.textContent =
+"Account type: " +
+data.role;
+
+loadMyProducts();
+loadSellerOrders();
+
+}else{
+
+document
+.getElementById("ordersPanel")
+.classList.remove("hidden");
+
+document
+.getElementById("buyerAccountInfo")
+.innerHTML =
+
+`
+<strong>
+${safe(data.name || "Buyer")}
+</strong>
+
+<p style="margin-top:5px;color:#777">
+${safe(user.email)}
+</p>
+
+<p style="margin-top:5px;color:#777">
+📱 ${safe(data.phone || user.phoneNumber || "No phone number")}
+</p>
+`;
+
+loadOrders();
+
+}
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+);
+
+
+/* =========================================
+   ACCOUNT
+========================================= */
+
+window.openAccount =
+function(){
+
+if(!currentUser){
+
+showLogin();
+
+openModal("authModal");
+
+return;
+
+}
+
+if(
+currentUserData &&
+(
+currentUserData.role === "seller" ||
+currentUserData.role === "admin"
+)
+){
+
+document
+.getElementById("sellerPanel")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}else{
+
+document
+.getElementById("ordersPanel")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+};
+
+
+/* =========================================
+   ADD PRODUCT
+========================================= */
+
+window.addProduct =
+async function(event){
+
+event.preventDefault();
+
+if(!currentUser){
+
+alert("Please sign in as a seller.");
+
+return;
+
+}
+
+try{
+
+const profile =
+await getDoc(
+doc(db,"users",currentUser.uid)
+);
+
+if(
+!profile.exists() ||
+(
+profile.data().role !== "seller" &&
+profile.data().role !== "admin"
+)
+){
+
+alert(
+"Only seller/admin accounts can add products."
+);
+
+return;
+
+}
+
+const product = {
+
+name:
+document.getElementById("productName")
+.value.trim(),
+
+price:
+Number(
+document.getElementById("productPrice")
+.value
+),
+
+oldPrice:
+Number(
+document.getElementById("productOldPrice")
+.value
+) || null,
+
+category:
+document.getElementById("productCategory")
+.value,
+
+image:
+document.getElementById("productImage")
+.value.trim(),
+
+stock:
+Number(
+document.getElementById("productStock")
+.value
+),
+
+description:
+document.getElementById("productDescription")
+.value.trim(),
+
+rating:5,
+
+sellerId:
+currentUser.uid,
+
+sellerEmail:
+currentUser.email,
+
+createdAt:
+serverTimestamp()
+
+};
+
+await addDoc(
+collection(db,"products"),
+product
+);
+
+alert("Product added to Delia!");
+
+event.target.reset();
+
+await loadProducts();
+
+loadMyProducts();
+
+}catch(error){
+
+alert(getFirebaseError(error));
+
+}
+
+};
+
+
+/* =========================================
+   MY PRODUCTS
+========================================= */
+
+async function loadMyProducts(){
+
+if(!currentUser) return;
+
+try{
+
+const productQuery =
+query(
+collection(db,"products"),
+where(
+"sellerId",
+"==",
+currentUser.uid
+)
+);
+
+const snapshot =
+await getDocs(productQuery);
+
+document
+.getElementById("myProductCount")
+.textContent =
+snapshot.size;
+
+const container =
+document.getElementById("myProducts");
+
+container.innerHTML = "";
+
+if(snapshot.empty){
+
+container.innerHTML =
+`
+<p style="color:#777;margin-top:12px">
+You haven't added any products yet.
+</p>
+`;
+
+return;
+
+}
+
+snapshot.forEach(item => {
+
+const product =
+item.data();
+
+container.innerHTML +=
+
+`
+<div class="cartItem">
+
+<div>
+
+<strong>
+${safe(product.name)}
+</strong>
+
+<br>
+
+<span style="color:#f85606">
+GH₵${Number(product.price).toFixed(2)}
+</span>
+
+<br>
+
+<small>
+Stock: ${product.stock}
+</small>
+
+</div>
+
+<button
+class="removeButton"
+onclick="deleteProduct('${item.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+});
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* =========================================
+   DELETE PRODUCT
+========================================= */
+
+window.deleteProduct =
+async function(id){
+
+if(!currentUser) return;
+
+if(!confirm("Delete this product?")) return;
+
+try{
+
+const productRef =
+doc(db,"products",id);
+
+const product =
+await getDoc(productRef);
+
+if(!product.exists()) return;
+
+if(
+product.data().sellerId !==
+currentUser.uid
+){
+
+alert(
+"You can only delete your own products."
+);
+
+return;
+
+}
+
+await deleteDoc(productRef);
+
+await loadProducts();
+
+loadMyProducts();
+
+}catch(error){
+
+alert(getFirebaseError(error));
+
+}
+
+};
+
+
+/* =========================================
+   CART
+========================================= */
+
+function loadCart(){
+
+try{
+
+cart =
+JSON.parse(
+localStorage.getItem("deliaCart")
+) || [];
+
+}catch{
+
+cart = [];
+
+}
+
+updateCart();
+
+}
+
+function saveCart(){
+
+localStorage.setItem(
+"deliaCart",
+JSON.stringify(cart)
+);
+
+}
+
+window.addToCart =
+function(id){
+
+if(!currentUser){
+
+alert(
+"Please sign in or sign up before buying."
+);
+
+showLogin();
+
+openModal("authModal");
+
+return;
+
+}
+
+const product =
+products.find(
+item => item.id === id
+);
+
+if(!product) return;
+
+if(Number(product.stock) <= 0){
+
+alert("This product is out of stock.");
+
+return;
+
+}
+
+cart.push({
+
+id:product.id,
+
+name:product.name,
+
+price:Number(product.price),
+
+sellerId:
+product.sellerId || ""
+
+});
+
+saveCart();
+
+updateCart();
+
+alert(
+product.name +
+" added to your cart."
+);
+
+};
+
+function updateCart(){
+
+document
+.getElementById("cartCount")
+.textContent =
+cart.length;
+
+const container =
+document.getElementById("cartItems");
+
+container.innerHTML = "";
+
+let total = 0;
+
+if(cart.length === 0){
+
+container.innerHTML =
+`
+<p style="color:#777">
+Your cart is empty.
+</p>
+`;
+
+}
+
+cart.forEach((item,index) => {
+
+total += Number(item.price);
+
+container.innerHTML +=
+
+`
+<div class="cartItem">
+
+<div>
+
+<strong>
+${safe(item.name)}
+</strong>
+
+<br>
+
+GH₵${Number(item.price).toFixed(2)}
+
+</div>
+
+<button
+class="removeButton"
+onclick="removeFromCart(${index})">
+
+Remove
+
+</button>
+
+</div>
+`;
+
+});
+
+document
+.getElementById("cartTotal")
+.textContent =
+total.toFixed(2);
+
+}
+
+window.removeFromCart =
+function(index){
+
+cart.splice(index,1);
+
+saveCart();
+
+updateCart();
+
+};
+
+window.openCart =
+function(){
+
+document
+.getElementById("cartPanel")
+.classList.add("open");
+
+};
+
+window.closeCart =
+function(){
+
+document
+.getElementById("cartPanel")
+.classList.remove("open");
+
+};
+
+
+/* =========================================
+   CHECKOUT
+========================================= */
+
+window.checkout =
+function(){
+
+if(!currentUser){
+
+alert(
+"Please sign in before checkout."
+);
+
+showLogin();
+
+openModal("authModal");
+
+return;
+
+}
+
+if(cart.length === 0){
+
+alert("Your cart is empty.");
+
+return;
+
+}
+
+openModal("checkoutModal");
+
+};
+
+
+/* =========================================
+   PAYSTACK PAYMENT
+========================================= */
+
+window.startPaystackPayment =
+function(event){
+
+event.preventDefault();
+
+if(!currentUser){
+
+alert("Please sign in first.");
+
+return;
+
+}
+
+if(cart.length === 0){
+
+alert("Your cart is empty.");
+
+return;
+
+}
+
+const name =
+document
+.getElementById("deliveryName")
+.value.trim();
+
+const phone =
+document
+.getElementById("deliveryPhone")
+.value.trim();
+
+const address =
+document
+.getElementById("deliveryAddress")
+.value.trim();
+
+let total = 0;
+
+cart.forEach(item => {
+
+total += Number(item.price);
+
+});
+
+total =
+Number(total.toFixed(2));
+
+const commission =
+Number(
+(total * COMMISSION_RATE)
+.toFixed(2)
+);
+
+const sellerEarnings =
+Number(
+(total - commission)
+.toFixed(2)
+);
+
+
+/*
+Paystack expects the amount
+in the smallest currency unit.
+
+GH₵100.00 becomes 10000.
+*/
+
+const amountInPesewas =
+Math.round(total * 100);
+
+const handler =
+PaystackPop.setup({
+
+key:
+PAYSTACK_PUBLIC_KEY,
+
+email:
+currentUser.email,
+
+amount:
+amountInPesewas,
+
+currency:"GHS",
+
+ref:
+"DELIA-" +
+Date.now(),
+
+metadata:{
+
+custom_fields:[
+
+{
+display_name:"Customer Name",
+variable_name:"customer_name",
+value:name
+},
+
+{
+display_name:"Phone",
+variable_name:"phone",
+value:phone
+},
+
+{
+display_name:"Delivery Address",
+variable_name:"delivery_address",
+value:address
+}
+
+]
+
+},
+
+callback:
+function(response){
+
+completeSuccessfulPayment(
+response,
+name,
+phone,
+address,
+total,
+commission,
+sellerEarnings
+);
+
+},
+
+onClose:
+function(){
+
+alert(
+"Payment window closed."
+);
+
+}
+
+});
+
+handler.openIframe();
+
+};
+
+
+/* =========================================
+   SAVE SUCCESSFUL ORDER
+========================================= */
+
+async function completeSuccessfulPayment(
+response,
+name,
+phone,
+address,
+total,
+commission,
+sellerEarnings
+){
+
+try{
+
+await addDoc(
+collection(db,"orders"),
+{
+
+buyerId:
+currentUser.uid,
+
+buyerEmail:
+currentUser.email,
+
+customerName:
+name,
+
+phone:
+phone,
+
+address:
+address,
+
+payment:
+"Paystack Test",
+
+paymentStatus:
+"success",
+
+paystackReference:
+response.reference,
+
+items:
+cart,
+
+total:
+total,
+
+commissionRate:
+COMMISSION_RATE,
+
+commission:
+commission,
+
+sellerEarnings:
+sellerEarnings,
+
+status:
+"Order placed",
+
+createdAt:
+serverTimestamp()
+
+}
+);
+
+cart = [];
+
+saveCart();
+
+updateCart();
+
+closeModal("checkoutModal");
+
+closeCart();
+
+alert(
+"Payment successful!\n\n" +
+"Reference: " +
+response.reference +
+"\n\n" +
+"Order total: GH₵" +
+total.toFixed(2) +
+"\n\n" +
+"Delia commission (1%): GH₵" +
+commission.toFixed(2) +
+"\n\n" +
+"Seller earnings: GH₵" +
+sellerEarnings.toFixed(2)
+);
+
+loadOrders();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Payment succeeded, but Delia could not save the order.\n\n" +
+"Contact the administrator with payment reference:\n" +
+response.reference
+);
+
+}
+
+}
+
+
+/* =========================================
+   BUYER ORDERS
+========================================= */
+
+async function loadOrders(){
+
+if(!currentUser) return;
+
+try{
+
+const orderQuery =
+query(
+collection(db,"orders"),
+where(
+"buyerId",
+"==",
+currentUser.uid
+)
+);
+
+const snapshot =
+await getDocs(orderQuery);
+
+const container =
+document.getElementById("orders");
+
+container.innerHTML = "";
+
+if(snapshot.empty){
+
+container.innerHTML =
+`
+<p style="color:#777;margin-top:15px">
+You haven't placed any orders yet.
+</p>
+`;
+
+return;
+
+}
+
+snapshot.forEach(item => {
+
+const order =
+item.data();
+
+let itemsHTML = "";
+
+if(Array.isArray(order.items)){
+
+order.items.forEach(product => {
+
+itemsHTML +=
+
+`
+<div>
+${safe(product.name)}
+— GH₵${Number(product.price).toFixed(2)}
+</div>
+`;
+
+});
+
+}
+
+container.innerHTML +=
+
+`
+<div class="order">
+
+<div class="orderHeader">
+
+<strong>
+Order #${safe(item.id.slice(0,8))}
+</strong>
+
+<strong>
+GH₵${Number(order.total || 0).toFixed(2)}
+</strong>
+
+</div>
+
+<div class="orderInfo">
+
+<strong>Products:</strong>
+
+<div class="orderItems">
+${itemsHTML}
+</div>
+
+<p style="margin-top:8px">
+<strong>Payment:</strong>
+${safe(order.payment || "")}
+</p>
+
+<p style="margin-top:8px">
+<strong>Payment status:</strong>
+${safe(order.paymentStatus || "success")}
+</p>
+
+<p class="orderStatus">
+✓ ${safe(order.status || "Order placed")}
+</p>
+
+</div>
+
+</div>
+`;
+
+});
+
+}catch(error){
+
+console.error(error);
+
+document
+.getElementById("orders")
+.innerHTML =
+`
+<p style="color:#c00;margin-top:15px">
+Could not load your orders.
+</p>
+`;
+
+}
+
+}
+
+
+/* =========================================
+   SELLER / ADMIN ORDERS
+========================================= */
+
+async function loadSellerOrders(){
+
+if(!currentUser) return;
+
+if(
+!currentUserData ||
+(
+currentUserData.role !== "seller" &&
+currentUserData.role !== "admin"
+)
+){
+
+return;
+
+}
+
+try{
+
+const snapshot =
+await getDocs(
+collection(db,"orders")
+);
+
+const container =
+document.getElementById("sellerOrders");
+
+container.innerHTML = "";
+
+document
+.getElementById("sellerOrderCount")
+.textContent =
+snapshot.size;
+
+let sellerEarningsTotal = 0;
+
+snapshot.forEach(item => {
+
+const order =
+item.data();
+
+const orderTotal =
+Number(order.total || 0);
+
+const orderCommission =
+Number(
+order.commission !== undefined
+?
+order.commission
+:
+orderTotal * COMMISSION_RATE
+);
+
+const orderSellerEarnings =
+Number(
+order.sellerEarnings !== undefined
+?
+order.sellerEarnings
+:
+orderTotal - orderCommission
+);
+
+sellerEarningsTotal +=
+orderSellerEarnings;
+
+let itemsHTML = "";
+
+if(Array.isArray(order.items)){
+
+order.items.forEach(product => {
+
+itemsHTML +=
+
+`
+<div style="margin-bottom:6px">
+
+<strong>
+${safe(product.name)}
+</strong>
+
+<br>
+
+GH₵${Number(product.price || 0).toFixed(2)}
+
+</div>
+`;
+
+});
+
+}
+
+container.innerHTML +=
+
+`
+<div class="order">
+
+<div class="orderHeader">
+
+<strong>
+Order #${safe(item.id.slice(0,8))}
+</strong>
+
+<strong style="color:#f85606">
+GH₵${orderTotal.toFixed(2)}
+</strong>
+
+</div>
+
+<div class="orderInfo">
+
+<p>
+<strong>Customer:</strong>
+${safe(order.customerName || "Not provided")}
+</p>
+
+<p>
+<strong>Phone:</strong>
+${safe(order.phone || "Not provided")}
+</p>
+
+<p>
+<strong>Address:</strong>
+${safe(order.address || "Not provided")}
+</p>
+
+<p>
+<strong>Email:</strong>
+${safe(order.buyerEmail || "Not provided")}
+</p>
+
+<p>
+<strong>Payment:</strong>
+${safe(order.payment || "Not provided")}
+</p>
+
+<div class="orderItems">
+
+<strong>Products</strong>
+
+<div style="margin-top:10px">
+${itemsHTML}
+</div>
+
+</div>
+
+<div class="commissionInfo">
+
+<p>
+<strong>Order Total:</strong>
+GH₵${orderTotal.toFixed(2)}
+</p>
+
+<p style="margin-top:5px">
+<strong>Delia Commission (1%):</strong>
+GH₵${orderCommission.toFixed(2)}
+</p>
+
+<p style="
+margin-top:5px;
+color:#159447;
+font-weight:bold;
+">
+
+Seller Earnings:
+GH₵${orderSellerEarnings.toFixed(2)}
+
+</p>
+
+</div>
+
+<p class="orderStatus">
+Current status:
+${safe(order.status || "Order placed")}
+</p>
+
+<select
+class="statusSelect"
+id="status-${item.id}">
+
+<option
+value="Order placed"
+${order.status === "Order placed" ? "selected" : ""}>
+Order placed
+</option>
+
+<option
+value="Processing"
+${order.status === "Processing" ? "selected" : ""}>
+Processing
+</option>
+
+<option
+value="Shipped"
+${order.status === "Shipped" ? "selected" : ""}>
+Shipped
+</option>
+
+<option
+value="Delivered"
+${order.status === "Delivered" ? "selected" : ""}>
+Delivered
+</option>
+
+<option
+value="Cancelled"
+${order.status === "Cancelled" ? "selected" : ""}>
+Cancelled
+</option>
+
+</select>
+
+<br>
+
+<button
+class="updateStatusButton"
+onclick="updateOrderStatus('${item.id}')">
+
+Update Order Status
+
+</button>
+
+</div>
+
+</div>
+`;
+
+});
+
+document
+.getElementById("sellerSales")
+.textContent =
+"GH₵" +
+sellerEarningsTotal.toFixed(2);
+
+if(snapshot.empty){
+
+container.innerHTML =
+`
+<p style="color:#777;margin-top:15px">
+No customer orders yet.
+</p>
+`;
+
+}
+
+}catch(error){
+
+console.error(error);
+
+document
+.getElementById("sellerOrders")
+.innerHTML =
+`
+<div style="
+background:#fff1f1;
+padding:15px;
+margin-top:15px;
+border-radius:5px;
+">
+
+<strong>
+Orders could not be loaded.
+</strong>
+
+<p style="margin-top:8px;color:#c00">
+${safe(error.message)}
+</p>
+
+</div>
+`;
+
+}
+
+}
+
+
+/* =========================================
+   UPDATE ORDER
+========================================= */
+
+window.updateOrderStatus =
+async function(orderId){
+
+if(!currentUser){
+
+alert("Please sign in first.");
+
+return;
+
+}
+
+if(
+!currentUserData ||
+(
+currentUserData.role !== "seller" &&
+currentUserData.role !== "admin"
+)
+){
+
+alert(
+"Only sellers/admins can update orders."
+);
+
+return;
+
+}
+
+const select =
+document.getElementById(
+"status-" + orderId
+);
+
+if(!select) return;
+
+try{
+
+await updateDoc(
+doc(db,"orders",orderId),
+{
+
+status:
+select.value,
+
+updatedAt:
+serverTimestamp()
+
+}
+);
+
+alert(
+"Order status updated to: " +
+select.value
+);
+
+await loadSellerOrders();
+
+}catch(error){
+
+alert(
+getFirebaseError(error)
+);
+
+}
+
+};
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+window.logout =
+async function(){
+
+try{
+
+await signOut(auth);
+
+cart = [];
+
+saveCart();
+
+updateCart();
+
+alert(
+"You have been signed out."
+);
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}catch(error){
+
+alert(
+getFirebaseError(error)
+);
+
+}
+
+};
+
+
+/* =========================================
+   AUTH UI
+========================================= */
+
+window.showLogin =
+function(){
+
+document
+.getElementById("loginForm")
+.classList.remove("hidden");
+
+document
+.getElementById("signupForm")
+.classList.add("hidden");
+
+};
+
+window.showSignup =
+function(){
+
+document
+.getElementById("loginForm")
+.classList.add("hidden");
+
+document
+.getElementById("signupForm")
+.classList.remove("hidden");
+
+};
+
+window.roleChanged =
+function(){
+
+const role =
+document
+.getElementById("signupRole")
+.value;
+
+const box =
+document
+.getElementById("sellerAddressBox");
+
+const address =
+document
+.getElementById("sellerAddress");
+
+if(role === "seller"){
+
+box.classList.remove("hidden");
+
+address.required = true;
+
+}else{
+
+box.classList.add("hidden");
+
+address.required = false;
+
+address.value = "";
+
+}
+
+};
+
+
+/* =========================================
+   MODALS
+========================================= */
+
+window.openModal =
+function(id){
+
+document
+.getElementById(id)
+.classList.add("show");
+
+};
+
+window.closeModal =
+function(id){
+
+document
+.getElementById(id)
+.classList.remove("show");
+
+};
+
+
+/* =========================================
+   HTML SECURITY
+========================================= */
+
+function safe(value){
+
+return String(value ?? "")
+
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   FIREBASE ERRORS
+========================================= */
+
+function getFirebaseError(error){
+
+const code =
+error?.code || "";
+
+if(code.includes("email-already-in-use"))
+return "That email is already registered.";
+
+if(
+code.includes("invalid-credential") ||
+code.includes("wrong-password")
+)
+return "Incorrect email or password.";
+
+if(code.includes("user-not-found"))
+return "No Delia account was found with that email.";
+
+if(code.includes("weak-password"))
+return "Your password must be at least 6 characters.";
+
+if(code.includes("invalid-email"))
+return "Please enter a valid email address.";
+
+if(code.includes("popup-closed-by-user"))
+return "Google sign-in was cancelled.";
+
+if(code.includes("popup-blocked"))
+return "The Google sign-in window was blocked.";
+
+if(
+code.includes("permission-denied") ||
+code.includes("insufficient-permission")
+)
+return "Firebase denied this action. Check your Firestore Security Rules.";
+
+if(code.includes("network-request-failed"))
+return "Network error. Check your internet connection.";
+
+return(
+error?.message ||
+"Something went wrong. Please try again."
+);
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+loadCart();
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
